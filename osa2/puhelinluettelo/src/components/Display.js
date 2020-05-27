@@ -3,9 +3,12 @@ import React from 'react'
 import Person from './Person'
 
 const Display = (props) => {
+  const regex = new RegExp(`^${props.newSearch}`, 'i')
+  
   const filter = props.persons.filter(person => 
-    person.name.toUpperCase() === props.newSearch.toUpperCase()
+    person.name.match(regex)
     )
+    
   if (props.newSearch.length === 0) {
     return (
       <div>
