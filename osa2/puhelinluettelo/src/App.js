@@ -1,31 +1,34 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import personService from './services/persons'
 import Display from './components/Display'
 import AddNewPerson from './components/AddNewPerson'
+import ReactDOM from 'react-dom';
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [newSearch, setNewSearch] = useState('')
+  const refresh = () => {
+    ReactDOM.render(<App/>,
+    document.getElementById('root'))
+  }
+
+  console.log(persons);
+
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log(response.data)
-        setPersons(response.data)
-        //setPersons(persons.concat(response.data))
+    personService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
       })
   }, [])
-console.log(persons);
-console.log(newSearch);
-
 
   const handleSearch = (event) => {
     setNewSearch(event.target.value)
   }
-  
+
   const handleNewName = (event) => {
     setNewName(event.target.value)
   }
@@ -46,9 +49,31 @@ console.log(newSearch);
     else if ((persons.some(e => e.number === person.number)))
       window.alert(`${person.number} is already added to phone book`)
     else {
-      setPersons(persons.concat(person))
-      setNewName('')
-      setNewNumber('')
+      personService
+        .create(person)
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+          setNewName('')
+          setNewNumber('')
+        })
+    }
+  }
+
+  const deletePerson = (id) => {
+    const url = `http://localhost:3001/persons/${id}`
+    const person = persons.find(p => p.id === id)
+    const proceed = window.confirm(`Delete ${person.name} ?`)
+    if (proceed) {
+      personService
+        .remove(url, person)
+        .then(
+          personService
+            .getAll()
+            .then(initialPersons => {
+              setPersons(initialPersons)
+              setTimeout(refresh(), 0)
+            })
+        )
     }
   }
 
@@ -61,7 +86,7 @@ console.log(newSearch);
         onChange={handleSearch}
       />
       <h2>add a new</h2>
-      <AddNewPerson 
+      <AddNewPerson
       addPerson={addPerson}
       newName={newName}
       handleNewName={handleNewName}
@@ -69,7 +94,7 @@ console.log(newSearch);
       handleNewNumber={handleNewNumber}
       />
       <h2>Numbers</h2>
-      <Display persons={persons} newSearch={newSearch}/>
+      <Display persons={persons} newSearch={newSearch} deletePerson={deletePerson}/>
     </div>
   )
 

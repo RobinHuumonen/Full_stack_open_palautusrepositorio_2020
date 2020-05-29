@@ -2,6 +2,7 @@ import React, {useState, useEffect } from 'react'
 import axios from 'axios'
 
 const Country = ({ country }) => {
+
   return (
     <>
     <h1>{country.name}</h1>
@@ -9,7 +10,7 @@ const Country = ({ country }) => {
     <p>population {country.population}</p>
     <h2>Spoken languages</h2>
     <ul>
-      {country.languages.map(language => 
+      {country.languages.map(language =>
         <li key={language.iso639_1}>{language.name}</li>)}
     </ul>
     <img src={country.flag} alt="Missing flag"
@@ -19,15 +20,14 @@ const Country = ({ country }) => {
 }
 
 const Display = (props) => {
-
   const regex = new RegExp(`^${props.newSearch}`, 'i')
-  const filter = props.countries.filter(country => 
+  const filter = props.countries.filter(country =>
     country.name.match(regex)
-    )
-    
-  if (filter.length === props.countries.length) 
+  )
+
+  if (filter.length === props.countries.length)
     return null
-    
+
   else if (filter.length > 10) {
     return (
       <p>Too many matches, specify another filter</p>
@@ -36,7 +36,11 @@ const Display = (props) => {
   } else if (filter.length > 1 && filter.length <= 10) {
       return (
         <div>
-          {filter.map(country => <p key={country.capital}>{country.name}</p>)}
+          {filter.map(country => <p key={country.capital}>{country.name}
+          <button onClick=''>
+            show
+          </button>
+          </p>)}
         </div>
       )
   } else if (filter.length === 1) {
@@ -48,7 +52,7 @@ const Display = (props) => {
       </div>
     )
   } else return null
-    
+
 
 }
 
@@ -56,7 +60,7 @@ const App = () => {
   const [countries, setCountries] = useState([])
   const [newSearch, setNewSearch] = useState('')
 
-  
+
   useEffect(() => {
     axios
       .get('https://restcountries.eu/rest/v2/all')
@@ -74,7 +78,7 @@ const App = () => {
     <div>
       find countries
       <input
-         value={newSearch} 
+         value={newSearch}
          onChange={handleSearch}
       />
     </div>
