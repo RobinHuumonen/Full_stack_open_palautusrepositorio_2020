@@ -16,4 +16,9 @@ const remove = (url ,person) => {
   return request.then(response => response.data)
 }
 
-export default {getAll, create, remove}
+const put = (url, person) => {
+  const request = axios.put(url, person)
+  return request.then(response => response.data)
+}
+
+export default {getAll, create, remove, put}
