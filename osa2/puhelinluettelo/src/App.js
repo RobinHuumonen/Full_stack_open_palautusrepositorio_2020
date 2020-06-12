@@ -64,13 +64,19 @@ const App = () => {
           setNewName('')
           setNewNumber('')
           setAddedNotification(`Added ${returnedPerson.name} to the phone book`)
-          setTimeout(() => {
-            setAddedNotification(null)
-          }, 3000)
+        })
+        .catch(error => {
+          setErrorMessage(`${error.response.data.error}`)
         })
 
+      setTimeout(() => {
+        setAddedNotification(null)
+        setErrorMessage(null)
+        refresh()
+      }, 3000)
+
     } else if (confirm) {
-      const url = `http://localhost:3001/persons/${id}`
+      const url = `http://localhost:3001/api/persons/${id}`
       returnPerson = persons.find(e => e.id === id)
       personService
         .put(url, person)
@@ -84,7 +90,7 @@ const App = () => {
           )
         )
         .catch(error => {
-          setErrorMessage(`Information of ${returnPerson.name} has already been removed from the server`)
+          setErrorMessage(`Information of ${returnPerson.name} has already been removed from the server / Missing number while updating number`)
         })
       
       setTimeout(() => {
@@ -96,7 +102,7 @@ const App = () => {
   }
 
   const deletePerson = (id) => {
-    const url = `http://localhost:3001/persons/${id}`
+    const url = `http://localhost:3001/api/persons/${id}`
     const person = persons.find(p => p.id === id)
     const returnPerson = person
     const proceed = window.confirm(`Delete ${person.name} ?`)
@@ -144,7 +150,3 @@ const App = () => {
 }
 
 export default App
-
-/*
-      setAddedNotification(`Changed ${returnPerson.name}'s number`)
-*/
