@@ -1,3 +1,4 @@
+var _ = require('lodash');
 const dummy = (blogs) => {
   return 1
 }
@@ -9,26 +10,72 @@ const totalLikes = (blogs) => {
 }
 
 const favoriteBlog = (blogs) => {
-  class Blog {
-    constructor(title, author, likes) {
-      this.title = title;
-      this.author = author;
-      this.likes = likes;
-    }
-  }
-  const mostLikes = blogs.reduce((previous, current) => {
+
+  const mostLikedBlog = blogs.reduce((previous, current) => {
     return previous.likes > current.likes
     ? previous
     : current
   }, 0)
+
+  return mostLikedBlog
+  ? {title: mostLikedBlog.title, author: mostLikedBlog.author, likes: mostLikedBlog.likes}
+  : mostLikedBlog
+}
+
+const mostBlogs = (blogs) => {
+  const authorsBlogs = _.countBy(
+    blogs.map(blog => blog.author)
+  )
+
+  const authorWithMostBlogs = Object.keys(authorsBlogs).reduce((previous, current) => {
+    return authorsBlogs.previous > authorsBlogs.current
+    ? previous
+    : current
+  }, 0)
+
+  const returnValue = {
+    author: authorWithMostBlogs,
+    blogs: authorsBlogs[authorWithMostBlogs]
+  }
   
-  return mostLikes
-  ? new Blog(mostLikes.title, mostLikes.author, mostLikes.likes)
-  : mostLikes
+  if (returnValue.blogs) return returnValue
+  else return 0
+}
+
+const mostLikes = (blogs) => {
+  const authors = blogs.map(blog => blog.author)
+  const likes = blogs.map(blog => blog.likes)
+
+  const authorsLikes = []
+    
+    for (let i = 0; i < authors.length; i++) {
+      
+      let indexOfAuthor = authorsLikes.findIndex(element => element.author === authors[i])
+
+      if (indexOfAuthor === -1) {
+        
+        authorsLikes.push(({ author: authors[i], likes: likes[i]}))
+      } else {
+        authorsLikes[indexOfAuthor].likes += likes[i]
+      }
+    
+    }
+
+    const mostLikedAuthor = authorsLikes.reduce((previous, current) => {
+      return previous.likes > current.likes
+      ? previous
+      : current
+    }, 0)
+  
+    return mostLikedAuthor
+    ? {author: mostLikedAuthor.author, likes: mostLikedAuthor.likes}
+    : mostLikedAuthor
 }
 
 module.exports = {
   dummy, 
   totalLikes,
-  favoriteBlog
+  favoriteBlog,
+  mostBlogs,
+  mostLikes
 }
