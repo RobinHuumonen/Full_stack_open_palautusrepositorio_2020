@@ -52,8 +52,8 @@ test('A valid blog can be added:', async () => {
   )
 
 })
-// If blog\'s likes are undefined, likes are set to zero:
-test('1', async () => {
+
+test('If blog\'s likes are undefined, likes are set to zero:', async () => {
   const newBlog = {
     title: "Blog from test with undefined likes",
     author: "Robin Huumonen",
@@ -71,8 +71,21 @@ test('1', async () => {
   
   expect(likes[blogsAtEnd.length - 1]).toBe(0)
 
+})
 
+test('If blog\'s title/url is undefined, get HTTP code 400 as a response:', async () => {
+  const newBlog = {
+    author: "From test, should be a bad request",
+    likes: 2
+  }
+  await api 
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
 
+    const blogsAtEnd = await helper.blogsInDb()
+
+    expect(blogsAtEnd.length).toBe(helper.initialBlogs.length)
 })
 
 afterAll(() => {
@@ -80,22 +93,3 @@ afterAll(() => {
 })
 
 // npm test -- -t 'A valid blog can be added:'
-
-/* {"_id":{"$oid":"5ee73ec3f922f1208cccc511"},"title":"Tappurainen tuppuraisen takuumieheksi","author":"Paavo Väyrynen","url":"https://puheenvuoro.uusisuomi.fi/paavovayrynen/tappurainen-tuppuraisen-takuumieheksi/","likes":{"$numberInt":"12"},"__v":{"$numberInt":"0"}} */
-
-/* [
-  {
-    title: 'Tappurainen tuppuraisen takuumieheksi',
-    author: 'Paavo Väyrynen',
-    url: 'https://puheenvuoro.uusisuomi.fi/paavovayrynen/tappurainen-tuppuraisen-takuumieheksi/',
-    likes: 12,
-    id: '5ee73ec3f922f1208cccc511'
-  },
-  {
-    title: 'Suomen yhteisvastuut eurosta',
-    author: 'Tuomas Malinen',
-    url: 'https://puheenvuoro.uusisuomi.fi/tmalinen/suomen-yhteisvastuut-eurosta/',
-    likes: 19,
-    id: '5eeb110439a9793cbcfcb054'
-  }
-] */
