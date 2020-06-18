@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Tappurainen tuppuraisen takuumieheksi",
-    "author": "Paavo Väyrynen",
-    "url": "https://puheenvuoro.uusisuomi.fi/paavovayrynen/tappurainen-tuppuraisen-takuumieheksi/",
-    "likes": "12"
+    "title": "Suomen yhteisvastuut eurosta",
+    "author": "Tuomas Malinen",
+    "url": "https://puheenvuoro.uusisuomi.fi/tmalinen/suomen-yhteisvastuut-eurosta/",
+    "likes": "19"
 }
