@@ -88,6 +88,26 @@ test('If blog\'s title/url is undefined, get HTTP code 400 as a response:', asyn
     expect(blogsAtEnd.length).toBe(helper.initialBlogs.length)
 })
 
+test('Individual blog can be deleted:', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToDelete = blogsAtStart[Math.floor(Math.random() * blogsAtStart.length)]
+
+  await api 
+    .delete(`/api/blogs/${blogToDelete.id}`)
+    .expect(204)
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  expect(blogsAtEnd).toHaveLength(
+    helper.initialBlogs.length - 1
+  )
+
+  const identifiers = blogsAtEnd.map(blog => blog.id)
+
+  expect(identifiers).not.toContain(blogToDelete.id)
+  
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
