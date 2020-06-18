@@ -108,8 +108,25 @@ test('Individual blog can be deleted:', async () => {
   
 })
 
+test('Blog\'s likes can be updated:', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToUpdate = blogsAtStart[Math.floor(Math.random() * blogsAtStart.length)]
+  const newBlog = {
+    likes: Math.floor(Math.random() * Math.pow(10, 3))
+  }
+
+  await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send(newBlog)
+    .expect(204)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  const updatedBlog = blogsAtEnd.filter(blog => blog.id == blogToUpdate.id)
+  expect(updatedBlog[0].likes).toBe(newBlog.likes)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
 
-// npm test -- -t 'A valid blog can be added:'
+// npm test -- -t '1'
