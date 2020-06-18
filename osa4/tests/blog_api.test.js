@@ -52,6 +52,28 @@ test('A valid blog can be added:', async () => {
   )
 
 })
+// If blog\'s likes are undefined, likes are set to zero:
+test('1', async () => {
+  const newBlog = {
+    title: "Blog from test with undefined likes",
+    author: "Robin Huumonen",
+    url: "https://ei-toimi.fi/"
+  }
+
+  await api 
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+  
+  const blogsAtEnd = await helper.blogsInDb()
+  const likes = blogsAtEnd.map(blog => blog.likes)
+  
+  expect(likes[blogsAtEnd.length - 1]).toBe(0)
+
+
+
+})
 
 afterAll(() => {
   mongoose.connection.close()
