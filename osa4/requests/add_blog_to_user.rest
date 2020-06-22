@@ -1,0 +1,11 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json 
+
+{
+    "title": "Dum dum blog from rest",
+    "author": "Robin Huumonen",
+    "url": "www.eeeeee.fi/",
+    "likes": "20000",
+    "userId": "5ef0b1abd3eab623b8f4e826"
+}
+

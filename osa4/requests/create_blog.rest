@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Suomen yhteisvastuut eurosta",
-    "author": "Tuomas Malinen",
-    "url": "https://puheenvuoro.uusisuomi.fi/tmalinen/suomen-yhteisvastuut-eurosta/",
-    "likes": "19"
+    "title": "Helsinki-Turku raideyhteyden kehittämisestä apua suhdanteisiin ja kilpailukykyyn",
+    "author": "Jarkko Heinonen",
+    "url": "https://puheenvuoro.uusisuomi.fi/jarkko-heinonen/helsinki-turku-raideyhteyden-kehittamisesta-apua-suhdanteisiin-ja-kilpailukykyyn/",
+    "likes": "0"
 }
