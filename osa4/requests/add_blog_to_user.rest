@@ -2,7 +2,7 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json 
 
 {
-    "title": "Dum dum blog from rest",
+    "title": "Dum dum blog from rest3",
     "author": "Robin Huumonen",
     "url": "www.eeeeee.fi/",
     "likes": "20000",

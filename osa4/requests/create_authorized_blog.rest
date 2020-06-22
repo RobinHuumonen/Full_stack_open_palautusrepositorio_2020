@@ -1,0 +1,11 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik11bW1vIiwiaWQiOiI1ZWYwYjFhYmQzZWFiNjIzYjhmNGU4MjYiLCJpYXQiOjE1OTI4Mzc0NTd9.gSYCA6i0dsCfw4D0z65HW64zu8DP_vZkBmB7QXD4qac
+
+{
+    "title": "Dum dum blog from rest2",
+    "author": "Robin Huumonen",
+    "url": "www.eeeeee.fi/",
+    "likes": "9000000000",
+    "userId": "5ef0b1abd3eab623b8f4e826"
+}
