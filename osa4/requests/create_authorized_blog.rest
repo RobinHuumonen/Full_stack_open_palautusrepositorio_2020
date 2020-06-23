@@ -3,7 +3,7 @@ Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik11bW1vIiwiaWQiOiI1ZWYwYjFhYmQzZWFiNjIzYjhmNGU4MjYiLCJpYXQiOjE1OTI4ODcyNjR9.s8cFf8SL3lvgN3DJiNuLZcdab5jLKkSt94ZiwlAwJfs
 
 {
-    "title": "Dum dum blog from rest5",
+    "title": "Dum dum blog from rest",
     "author": "Robin Huumonen",
     "url": "www.eeeeee.fi/",
     "likes": "9000000000",

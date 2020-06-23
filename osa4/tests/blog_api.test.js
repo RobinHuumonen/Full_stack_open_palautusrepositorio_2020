@@ -39,6 +39,7 @@ test('A valid blog can be added:', async () => {
 
   await api 
     .post('/api/blogs')
+    .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik11bW1vIiwiaWQiOiI1ZWYwYjFhYmQzZWFiNjIzYjhmNGU4MjYiLCJpYXQiOjE1OTI4OTg3NDR9.k3fitmg90sdQoqLYS96V5sBqVmOTaw0mgfwf1SQQLkk')
     .send(newBlog)
     .expect(201)
     .expect('Content-Type', /application\/json/)
@@ -54,6 +55,7 @@ test('A valid blog can be added:', async () => {
 })
 
 test('If blog\'s likes are undefined, likes are set to zero:', async () => {
+  
   const newBlog = {
     title: "Blog from test with undefined likes",
     author: "Robin Huumonen",
@@ -62,6 +64,7 @@ test('If blog\'s likes are undefined, likes are set to zero:', async () => {
 
   await api 
     .post('/api/blogs')
+    .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik11bW1vIiwiaWQiOiI1ZWYwYjFhYmQzZWFiNjIzYjhmNGU4MjYiLCJpYXQiOjE1OTI4OTg3NDR9.k3fitmg90sdQoqLYS96V5sBqVmOTaw0mgfwf1SQQLkk')
     .send(newBlog)
     .expect(201)
     .expect('Content-Type', /application\/json/)
@@ -80,6 +83,7 @@ test('If blog\'s title/url is undefined, get HTTP code 400 as a response:', asyn
   }
   await api 
     .post('/api/blogs')
+    .set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik11bW1vIiwiaWQiOiI1ZWYwYjFhYmQzZWFiNjIzYjhmNGU4MjYiLCJpYXQiOjE1OTI4OTg3NDR9.k3fitmg90sdQoqLYS96V5sBqVmOTaw0mgfwf1SQQLkk')
     .send(newBlog)
     .expect(400)
 
@@ -91,7 +95,7 @@ test('If blog\'s title/url is undefined, get HTTP code 400 as a response:', asyn
 test('Individual blog can be deleted:', async () => {
   const blogsAtStart = await helper.blogsInDb()
   const blogToDelete = blogsAtStart[Math.floor(Math.random() * blogsAtStart.length)]
-
+  
   await api 
     .delete(`/api/blogs/${blogToDelete.id}`)
     .expect(204)
@@ -125,8 +129,29 @@ test('Blog\'s likes can be updated:', async () => {
   expect(updatedBlog[0].likes).toBe(newBlog.likes)
 })
 
+test('Unauthorized user cannot add blogs:', async () => {
+  const newBlog = {
+    title: "A valid blog from test",
+    author: "Robin Huumonen without token",
+    url: "https://ei-toimi.fi/",
+    likes: "0"
+  }
+
+  await api 
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(401)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  expect(blogsAtEnd.length).toBe(helper.initialBlogs.length)
+  
+  const titles = blogsAtEnd.map(blog => blog.title)
+  expect(titles).not.toContain(
+    "A valid blog from test"
+  )
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
-
-// npm test -- -t '1'
