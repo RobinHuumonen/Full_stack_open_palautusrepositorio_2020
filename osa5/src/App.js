@@ -91,7 +91,6 @@ const App = () => {
     window.localStorage.removeItem('loggedNoteAppUser')
     setUser(null)
   }
-
   return (
     <div>  
       {user === null

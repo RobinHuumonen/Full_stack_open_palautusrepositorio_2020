@@ -1,33 +1,57 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const BlogForm = (props) => {
+const BlogForm = ({
+  addBlog,
+  newTitle,
+  handleTitleChange,
+  newAuthor,
+  handleAuthorChange,
+  newUrl,
+  handleUrlChange
+}) => {
+  
+  const [createNoteVisible, setCreateNoteVisible] = useState(false)
+
+  const toggleVisibility = () => {
+    setCreateNoteVisible(!createNoteVisible)
+  }
+
+  const hideWhenVisible = { display: createNoteVisible ? 'none' : ''}
+  const showWhenVisible = { display: createNoteVisible ? '' : 'none'}
+
   return (
     <div>
+      <div style={hideWhenVisible}>
+        <button onClick={toggleVisibility}>create blog</button>
+      </div>
+      <div style={showWhenVisible}>
       <h2>Create new</h2>
-      <form onSubmit={props.addBlog}>
-        <p>
+      <form onSubmit={addBlog}>
+        <div>
           title:
             <input
-              value={props.newTitle}
-              onChange={props.handleTitleChange}
+              value={newTitle}
+              onChange={handleTitleChange}
             />
-        </p>
-        <p>
+        </div>
+        <div>
           Author:
             <input
-              value={props.newAuthor}
-              onChange={props.handleAuthorChange}
+              value={newAuthor}
+              onChange={handleAuthorChange}
             />
-        </p>
-        <p>
+        </div>
+        <div>
           Url:
             <input
-              value={props.newUrl}
-              onChange={props.handleUrlChange}
+              value={newUrl}
+              onChange={handleUrlChange}
             />
-        </p>
-        <button type="submit">create</button>
+        </div>
+        <button type="submit" onClick={toggleVisibility}>create</button>
+        <button onClick={toggleVisibility}>cancel</button>
       </form>
+    </div>
     </div>
   )
 }
