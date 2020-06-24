@@ -3,7 +3,6 @@ import React from 'react'
 const LoginForm = (props) => {
   return (
       <div>
-        <h1>Log ig to application</h1>
         <form onSubmit={props.handleLogin}>
          <div>
            username

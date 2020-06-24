@@ -3,6 +3,7 @@ import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import LoggedInUser from './components/LoggedInUser'
 import BlogForm from './components/BlogForm'
+import Notification from './components/Notification'
 import blogService from './services/blogService'
 import loginService from './services/login'
 
@@ -14,7 +15,7 @@ const App = () => {
   const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
   const [newUrl, setNewUrl] = useState('')
-
+  const [notification, setNotification] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -40,9 +41,13 @@ const App = () => {
     blogService.setToken(user.token)
     const blog = await blogService.create(newBlog)
     setBlogs(blogs.concat(blog))
+    setNotification(`A new blog ${blog.title} by ${blog.author} added`)
     setNewTitle('')
     setNewAuthor('')
     setNewUrl('')
+    setTimeout(() => {
+      setNotification(null)
+    }, 4000)
   }
 
   const handleTitleChange = event => {
@@ -60,7 +65,7 @@ const App = () => {
   const handleLogin = async (event) => {
     
     event.preventDefault()
-
+    try {
       const user = await loginService.login({
         username, password
       })
@@ -73,6 +78,13 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
+    } catch (exception) {
+      setNotification('Wrong username or password')
+      setTimeout(() => {
+        setNotification(null)
+      }, 4000)
+    }
+     
   }
 
   const handleLogout = () => {
@@ -83,15 +95,20 @@ const App = () => {
   return (
     <div>  
       {user === null
-      ? <LoginForm
-          handleLogin = {handleLogin}
-          username = {username}
-          setUsername = {setUsername}
-          password = {password}
-          setPassword = {setPassword}
-        />
+      ? <div>
+          <h1>Log in to application</h1>
+          <Notification notification={notification}/>
+          <LoginForm
+            handleLogin = {handleLogin}
+            username = {username}
+            setUsername = {setUsername}
+            password = {password}
+            setPassword = {setPassword}
+          />
+        </div> 
       : <div>
           <h2>Blogs</h2>
+          <Notification notification={notification}/>
           <LoggedInUser
           user={user}
           handleLogout={handleLogout}
