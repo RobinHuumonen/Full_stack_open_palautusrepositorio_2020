@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
-import blogService from './services/blogs'
+import LoggedInUser from './components/LoggedInUser'
+import BlogForm from './components/BlogForm'
+import blogService from './services/blogService'
 import loginService from './services/login'
 
 const App = () => {
@@ -9,6 +11,10 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [newTitle, setNewTitle] = useState('')
+  const [newAuthor, setNewAuthor] = useState('')
+  const [newUrl, setNewUrl] = useState('')
+
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -24,6 +30,33 @@ const App = () => {
     }
   }, [])
 
+  const addBlog = async (event) => {
+    event.preventDefault()
+    const newBlog = {
+      title: newTitle,
+      author: newAuthor,
+      url: newUrl,
+    }
+    blogService.setToken(user.token)
+    const blog = await blogService.create(newBlog)
+    setBlogs(blogs.concat(blog))
+    setNewTitle('')
+    setNewAuthor('')
+    setNewUrl('')
+  }
+
+  const handleTitleChange = event => {
+    setNewTitle(event.target.value)
+  }
+
+  const handleAuthorChange = event => {
+    setNewAuthor(event.target.value)
+  }
+
+  const handleUrlChange = event => {
+    setNewUrl(event.target.value)
+  }
+
   const handleLogin = async (event) => {
     
     event.preventDefault()
@@ -36,37 +69,13 @@ const App = () => {
         'loggedNoteAppUser', JSON.stringify(user)
       )
 
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
   }
 
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-         <div>
-           username
-             <input
-             type="text"
-             value={username}
-             name="Username"
-             onChange={({ target }) => setUsername(target.value)}
-           />
-         </div>
-         <div>
-           password
-             <input
-             type="password"
-             value={password}
-             name="Password"
-             onChange={({ target }) => setPassword(target.value)}
-           />
-         </div>
-         <button type="submit">login</button>
-       </form>      
-     )
-
   const handleLogout = () => {
-
     window.localStorage.removeItem('loggedNoteAppUser')
     setUser(null)
   }
@@ -74,21 +83,35 @@ const App = () => {
   return (
     <div>  
       {user === null
-      ? <div>
-        <h1>Log ig to application</h1>
-        {loginForm()}
-      </div> 
-      
+      ? <LoginForm
+          handleLogin = {handleLogin}
+          username = {username}
+          setUsername = {setUsername}
+          password = {password}
+          setPassword = {setPassword}
+        />
       : <div>
-        <h2>Blogs</h2>
-        <p>
-          {user.name} logged in
-          <button onClick={handleLogout}>logout</button>
-        </p>
-        {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
-      </div>
+          <h2>Blogs</h2>
+          <LoggedInUser
+          user={user}
+          handleLogout={handleLogout}
+          blogs={blogs}
+          />
+          <BlogForm
+            addBlog={addBlog}
+            newTitle={newTitle}
+            handleTitleChange={handleTitleChange}
+            newAuthor={newAuthor}
+            handleAuthorChange={handleAuthorChange}
+            newUrl={newUrl}
+            handleUrlChange={handleUrlChange}
+          />
+          {blogs.map(blog =>
+            <Blog key={blog.id} blog={blog} />
+          )}
+        </div>
+        
+
     }
     </div>
   )
