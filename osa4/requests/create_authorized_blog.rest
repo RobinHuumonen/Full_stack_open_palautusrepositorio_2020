@@ -1,11 +1,11 @@
-POST http://localhost:3003/api/blogs
+POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik11bW1vIiwiaWQiOiI1ZWYwYjFhYmQzZWFiNjIzYjhmNGU4MjYiLCJpYXQiOjE1OTI4ODcyNjR9.s8cFf8SL3lvgN3DJiNuLZcdab5jLKkSt94ZiwlAwJfs
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik11bW1vIiwiaWQiOiI1ZWYwYjFhYmQzZWFiNjIzYjhmNGU4MjYiLCJpYXQiOjE1OTMwMTA4MTN9.Pd39pAkpQeMD4oxKDIYfeR-ixLCS48eXpPzr8e9xPSw
 
 {
-    "title": "Dum dum blog from rest",
-    "author": "Robin Huumonen",
-    "url": "www.eeeeee.fi/",
-    "likes": "9000000000",
+    "title": "Mummon eka blogi",
+    "author": "Mummo Ankka",
+    "url": "www.ankkalinna.fi/",
+    "likes": "333",
     "userId": "5ef0b1abd3eab623b8f4e826"
 }
