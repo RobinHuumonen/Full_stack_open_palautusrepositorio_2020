@@ -12,9 +12,6 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [newTitle, setNewTitle] = useState('')
-  const [newAuthor, setNewAuthor] = useState('')
-  const [newUrl, setNewUrl] = useState('')
   const [notification, setNotification] = useState(null)
 
   useEffect(() => {
@@ -31,35 +28,14 @@ const App = () => {
     }
   }, [])
 
-  const addBlog = async (event) => {
-    event.preventDefault()
-    const newBlog = {
-      title: newTitle,
-      author: newAuthor,
-      url: newUrl,
-    }
+  const addBlog = async (newBlog) => {
     blogService.setToken(user.token)
     const blog = await blogService.create(newBlog)
     setBlogs(blogs.concat(blog))
     setNotification(`A new blog ${blog.title} by ${blog.author} added`)
-    setNewTitle('')
-    setNewAuthor('')
-    setNewUrl('')
     setTimeout(() => {
       setNotification(null)
     }, 4000)
-  }
-
-  const handleTitleChange = event => {
-    setNewTitle(event.target.value)
-  }
-
-  const handleAuthorChange = event => {
-    setNewAuthor(event.target.value)
-  }
-
-  const handleUrlChange = event => {
-    setNewUrl(event.target.value)
   }
 
   const handleLogin = async (event) => {
@@ -91,6 +67,7 @@ const App = () => {
     window.localStorage.removeItem('loggedNoteAppUser')
     setUser(null)
   }
+
   return (
     <div>  
       {user === null
@@ -114,13 +91,7 @@ const App = () => {
           blogs={blogs}
           />
           <BlogForm
-            addBlog={addBlog}
-            newTitle={newTitle}
-            handleTitleChange={handleTitleChange}
-            newAuthor={newAuthor}
-            handleAuthorChange={handleAuthorChange}
-            newUrl={newUrl}
-            handleUrlChange={handleUrlChange}
+            createBlog={addBlog}
           />
           {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />

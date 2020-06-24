@@ -1,20 +1,37 @@
 import React, { useState } from 'react'
 
-const BlogForm = ({
-  addBlog,
-  newTitle,
-  handleTitleChange,
-  newAuthor,
-  handleAuthorChange,
-  newUrl,
-  handleUrlChange
-}) => {
+const BlogForm = ({ createBlog }) => {
   
   const [createNoteVisible, setCreateNoteVisible] = useState(false)
+  const [newTitle, setNewTitle] = useState('')
+  const [newAuthor, setNewAuthor] = useState('')
+  const [newUrl, setNewUrl] = useState('')
 
   const toggleVisibility = () => {
     setCreateNoteVisible(!createNoteVisible)
   }
+
+  const handleTitleChange = event => {
+    setNewTitle(event.target.value)
+  }
+
+  const handleAuthorChange = event => {
+    setNewAuthor(event.target.value)
+  }
+
+  const handleUrlChange = event => {
+    setNewUrl(event.target.value)
+  }
+
+  const addBlog = (event) => {
+    event.preventDefault()
+    createBlog({
+      title: newTitle,
+      author: newAuthor,
+      url: newUrl,
+    })
+  }
+
 
   const hideWhenVisible = { display: createNoteVisible ? 'none' : ''}
   const showWhenVisible = { display: createNoteVisible ? '' : 'none'}
