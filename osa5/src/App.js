@@ -38,6 +38,17 @@ const App = () => {
     }, 4000)
   }
 
+  const addLike = async (newBlog) => {
+    const id = blogs.findIndex(blog => blog.title === newBlog.title && blog.likes === newBlog.likes - 1)
+    blogService.setToken(user.token)
+    const blog = await blogService.put(newBlog)
+    setBlogs(blogs.splice(id, 1, blog))
+    setNotification(`Added like to ${blog.title}`)
+    setTimeout(() => {
+      setNotification(null)
+    }, 4000)
+  }
+
   const handleLogin = async (event) => {
     
     event.preventDefault()
@@ -94,7 +105,7 @@ const App = () => {
             createBlog={addBlog}
           />
           {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} addLike={addLike} />
           )}
         </div>
         
@@ -105,3 +116,4 @@ const App = () => {
 }
 
 export default App
+
