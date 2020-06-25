@@ -79,6 +79,8 @@ const App = () => {
     setUser(null)
   }
 
+  const sortedBlogs = blogs.sort((prev, curr) => (prev.likes < curr.likes) ? 1 : -1)
+
   return (
     <div>  
       {user === null
@@ -104,7 +106,7 @@ const App = () => {
           <BlogForm
             createBlog={addBlog}
           />
-          {blogs.map(blog =>
+          {sortedBlogs.map(blog =>
             <Blog key={blog.id} blog={blog} addLike={addLike} />
           )}
         </div>
