@@ -15,7 +15,7 @@ const Blog = ({ blog, addLike, removeBlog, user }) => {
   const toggleVisibility = () => {
     setShowAllFields(!showAllFields)
   }
-  
+
   const handleLikeClick = () => {
     addLike({
       user: blog.user.id,
@@ -36,9 +36,9 @@ const Blog = ({ blog, addLike, removeBlog, user }) => {
     }
   }
 
-  const showMore = { display: showAllFields ? 'none' : ''}
-  const showLess = { display: showAllFields ? '' : 'none'}
-  const showRemoveButton = { display: isUsersBlog ? '' : 'none'}
+  const showMore = { display: showAllFields ? 'none' : '' }
+  const showLess = { display: showAllFields ? '' : 'none' }
+  const showRemoveButton = { display: isUsersBlog ? '' : 'none' }
 
   return (
     <div className="blog">
@@ -60,7 +60,7 @@ const Blog = ({ blog, addLike, removeBlog, user }) => {
         {blog.author}
         <br/>
         <b style={showRemoveButton}> <button onClick={handleRemoveClick}>remove</button></b>
-       
+
       </div>
     </div>
 

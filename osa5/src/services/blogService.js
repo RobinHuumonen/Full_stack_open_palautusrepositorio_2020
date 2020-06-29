@@ -26,7 +26,7 @@ const put = async newBlog => {
     headers: { Authorization: token }
   }
   const url = `${baseUrl}/${newBlog.user}`
-  
+
   const response = await axios.put(url, newBlog, config)
   return response.data
 }

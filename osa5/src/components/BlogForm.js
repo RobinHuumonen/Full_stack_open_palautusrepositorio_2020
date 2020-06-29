@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 const BlogForm = ({ createBlog }) => {
-  
+
   const [createNoteVisible, setCreateNoteVisible] = useState(false)
   const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
@@ -33,8 +33,8 @@ const BlogForm = ({ createBlog }) => {
   }
 
 
-  const hideWhenVisible = { display: createNoteVisible ? 'none' : ''}
-  const showWhenVisible = { display: createNoteVisible ? '' : 'none'}
+  const hideWhenVisible = { display: createNoteVisible ? 'none' : '' }
+  const showWhenVisible = { display: createNoteVisible ? '' : 'none' }
 
   return (
     <div>
@@ -42,33 +42,33 @@ const BlogForm = ({ createBlog }) => {
         <button onClick={toggleVisibility}>create blog</button>
       </div>
       <div style={showWhenVisible}>
-      <h2>Create new</h2>
-      <form onSubmit={addBlog}>
-        <div>
+        <h2>Create new</h2>
+        <form onSubmit={addBlog}>
+          <div>
           title:
             <input
               value={newTitle}
               onChange={handleTitleChange}
             />
-        </div>
-        <div>
+          </div>
+          <div>
           Author:
             <input
               value={newAuthor}
               onChange={handleAuthorChange}
             />
-        </div>
-        <div>
+          </div>
+          <div>
           Url:
             <input
               value={newUrl}
               onChange={handleUrlChange}
             />
-        </div>
-        <button type="submit" onClick={toggleVisibility}>create</button>
-        <button onClick={toggleVisibility}>cancel</button>
-      </form>
-    </div>
+          </div>
+          <button type="submit" onClick={toggleVisibility}>create</button>
+          <button onClick={toggleVisibility}>cancel</button>
+        </form>
+      </div>
     </div>
   )
 }

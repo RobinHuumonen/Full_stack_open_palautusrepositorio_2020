@@ -17,7 +17,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const App = () => {
 
   const removeBlog = async (id) => {
     const blog = blogs.find(blog => blog.id === id)
-    console.log(blog);
+    console.log(blog)
     blogService.setToken(user.token)
     await blogService.remove(id)
     setBlogs(blogs.splice(
@@ -61,11 +61,11 @@ const App = () => {
     setTimeout(() => {
       setNotification(null)
     }, 4000)
-    
+
   }
 
   const handleLogin = async (event) => {
-    
+
     event.preventDefault()
     try {
       const user = await loginService.login({
@@ -86,7 +86,7 @@ const App = () => {
         setNotification(null)
       }, 4000)
     }
-     
+
   }
 
   const handleLogout = () => {
@@ -97,9 +97,9 @@ const App = () => {
   const sortedBlogs = blogs.sort((prev, curr) => (prev.likes < curr.likes) ? 1 : -1)
 
   return (
-    <div>  
+    <div>
       {user === null
-      ? <div>
+        ? <div>
           <h1>Log in to application</h1>
           <Notification notification={notification}/>
           <LoginForm
@@ -109,14 +109,14 @@ const App = () => {
             password = {password}
             setPassword = {setPassword}
           />
-        </div> 
-      : <div>
+        </div>
+        : <div>
           <h2>Blogs</h2>
           <Notification notification={notification}/>
           <LoggedInUser
-          user={user}
-          handleLogout={handleLogout}
-          blogs={blogs}
+            user={user}
+            handleLogout={handleLogout}
+            blogs={blogs}
           />
           <BlogForm
             createBlog={addBlog}
@@ -125,9 +125,9 @@ const App = () => {
             <Blog key={blog.id} blog={blog} addLike={addLike} removeBlog={removeBlog} user={user} />
           )}
         </div>
-        
 
-    }
+
+      }
     </div>
   )
 }
