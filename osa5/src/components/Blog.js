@@ -42,7 +42,7 @@ const Blog = ({ blog, addLike, removeBlog, user }) => {
 
   return (
     <div className="blog">
-      <div style={showMore}>
+      <div style={showMore} className="showMore">
         {blog.title}
         &nbsp;
         {blog.author}

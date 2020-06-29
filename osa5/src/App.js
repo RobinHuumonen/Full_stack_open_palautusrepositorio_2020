@@ -95,6 +95,8 @@ const App = () => {
   }
 
   const sortedBlogs = blogs.sort((prev, curr) => (prev.likes < curr.likes) ? 1 : -1)
+  console.log(user);
+  
 
   return (
     <div>
