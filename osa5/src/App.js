@@ -49,6 +49,21 @@ const App = () => {
     }, 4000)
   }
 
+  const removeBlog = async (id) => {
+    const blog = blogs.find(blog => blog.id === id)
+    console.log(blog);
+    blogService.setToken(user.token)
+    await blogService.remove(id)
+    setBlogs(blogs.splice(
+      blogs.findIndex(blog =>
+        blog.id === id), 1))
+    setNotification(`Removed ${blog.title}`)
+    setTimeout(() => {
+      setNotification(null)
+    }, 4000)
+    
+  }
+
   const handleLogin = async (event) => {
     
     event.preventDefault()
@@ -107,7 +122,7 @@ const App = () => {
             createBlog={addBlog}
           />
           {sortedBlogs.map(blog =>
-            <Blog key={blog.id} blog={blog} addLike={addLike} />
+            <Blog key={blog.id} blog={blog} addLike={addLike} removeBlog={removeBlog} user={user} />
           )}
         </div>
         

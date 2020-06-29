@@ -1,14 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
-const Blog = ({ blog, addLike }) => {
-  const [showAll, setShowAll] = useState(false)
+const Blog = ({ blog, addLike, removeBlog, user }) => {
+  const [showAllFields, setShowAllFields] = useState(false)
+  const [isUsersBlog, setIsUsersBlog] = useState(false)
+
+  useEffect(() => {
+    if (blog.user.username === user.username) {
+      setIsUsersBlog(true)
+    } else {
+      setIsUsersBlog(false)
+    }
+  }, [])
 
   const toggleVisibility = () => {
-    setShowAll(!showAll)
+    setShowAllFields(!showAllFields)
   }
   
-  const handleLikeClick = (event) => {
-    event.preventDefault()
+  const handleLikeClick = () => {
     addLike({
       user: blog.user.id,
       likes: blog.likes + 1,
@@ -19,18 +27,28 @@ const Blog = ({ blog, addLike }) => {
     })
   }
 
-  const hideWhenVisible = { display: showAll ? 'none' : ''}
-  const showWhenVisible = { display: showAll ? '' : 'none'}
+  const handleRemoveClick = () => {
+    const confirm = window.confirm(`Remove blog: ${blog.title} by: ${blog.author}`)
+    if (!confirm) {
+      return
+    } else {
+      removeBlog(blog.id)
+    }
+  }
+
+  const showMore = { display: showAllFields ? 'none' : ''}
+  const showLess = { display: showAllFields ? '' : 'none'}
+  const showRemoveButton = { display: isUsersBlog ? '' : 'none'}
 
   return (
     <div className="blog">
-      <div style={hideWhenVisible}>
+      <div style={showMore}>
         {blog.title}
         &nbsp;
         {blog.author}
         <button onClick={toggleVisibility}>view</button>
       </div>
-      <div style={showWhenVisible}>
+      <div style={showLess}>
         {blog.title}
         <button onClick={toggleVisibility}>hide</button>
         <br/>
@@ -40,6 +58,9 @@ const Blog = ({ blog, addLike }) => {
         <button onClick={handleLikeClick}>like</button>
         <br/>
         {blog.author}
+        <br/>
+        <b style={showRemoveButton}> <button onClick={handleRemoveClick}>remove</button></b>
+       
       </div>
     </div>
 
