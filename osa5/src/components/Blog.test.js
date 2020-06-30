@@ -5,7 +5,7 @@ import { prettyDOM } from '@testing-library/dom'
 import Blog from './Blog'
 
 describe('Blog component', () => {
-  let component 
+  let component
   const blog = {
     title: "From 'renders author and title' test",
     author: 'root',
@@ -60,5 +60,22 @@ describe('Blog component', () => {
     expect(div).toHaveTextContent(
       `${blog.likes}`
     )
+  })
+
+  test("like button's handler is called as many times the button is pressed", () => {
+    const mockHandler = jest.fn()
+
+    const component = render(
+      <Blog blog={blog} user={user} addLike={mockHandler}/>
+    )
+
+    const viewButton = component.container.querySelector('button')
+    const likeButton = component.container.querySelector('button:nth-child(4)')
+
+    fireEvent.click(viewButton)
+    fireEvent.click(likeButton)
+    fireEvent.click(likeButton)
+
+    expect(mockHandler.mock.calls).toHaveLength(2)
   })
 })
