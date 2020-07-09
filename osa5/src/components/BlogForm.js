@@ -39,7 +39,7 @@ const BlogForm = ({ createBlog }) => {
   return (
     <div>
       <div style={hideWhenVisible}>
-        <button onClick={toggleVisibility}>create blog</button>
+        <button id="create_blog_button" onClick={toggleVisibility}>create blog</button>
       </div>
       <div style={showWhenVisible}>
         <h2>Create new</h2>
@@ -68,7 +68,7 @@ const BlogForm = ({ createBlog }) => {
               onChange={handleUrlChange}
             />
           </div>
-          <button type="submit" onClick={toggleVisibility}>create</button>
+          <button id="create_button" type="submit" onClick={toggleVisibility}>create</button>
           <button onClick={toggleVisibility}>cancel</button>
         </form>
       </div>

@@ -54,6 +54,8 @@ blogsRouter.post('/', async (req, res) => {
 })
 
 blogsRouter.delete('/:id', async (req, res) => {
+
+  
   if (!req.token) {
     return res.status(401).json({ error: 'token missing or invalid' })
   }

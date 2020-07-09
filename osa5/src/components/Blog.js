@@ -46,7 +46,7 @@ const Blog = ({ blog, addLike, removeBlog, user }) => {
         {blog.title}
         &nbsp;
         {blog.author}
-        <button onClick={toggleVisibility}>view</button>
+        <button id="view_button" onClick={toggleVisibility}>view</button>
       </div>
       <div style={showLess} className="showLess">
         {blog.title}
@@ -55,11 +55,11 @@ const Blog = ({ blog, addLike, removeBlog, user }) => {
         {blog.url}
         <br/>
         {blog.likes}
-        <button onClick={handleLikeClick} className="likeButton">like</button>
+        <button id="like_button" onClick={handleLikeClick} className="likeButton">like</button>
         <br/>
         {blog.author}
         <br/>
-        <b style={showRemoveButton}> <button onClick={handleRemoveClick}>remove</button></b>
+        <b style={showRemoveButton}> <button id="remove_button" onClick={handleRemoveClick}>remove</button></b>
 
       </div>
     </div>
