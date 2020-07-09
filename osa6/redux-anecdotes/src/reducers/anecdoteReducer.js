@@ -1,3 +1,5 @@
+import { act } from "react-dom/test-utils"
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -28,6 +30,8 @@ const reducer = (state = initialState, action) => {
       votedAnecdote.votes += 1
       state[state.findIndex(e => e.id === action.data)] = votedAnecdote
       return [...state]
+    case 'NEW_ANECDOTE':
+      return [...state, action.data]
     default: return state
   }
 }
