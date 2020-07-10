@@ -18,7 +18,7 @@ const AnecdoteList = () => {
 
   return (
     <div>
-       {anecdotes.map(anecdote =>
+        {anecdotes.map(anecdote =>
           <div key={anecdote.id}>
             <div>
               {anecdote.content}
