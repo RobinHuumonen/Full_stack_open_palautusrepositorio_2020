@@ -3,26 +3,33 @@ const initialState = ''
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'CREATE':
-      const notification = `You voted '${action.data.content}'`
-      return notification
+      return action.data
     case 'REMOVE':
       return ''
     default: return state
   }
 }
 
-export const createNotification = (content) => {
+ export const ShowNotification = (notification) => {
   return {
     type: 'CREATE',
-    data: {
-      content
-    }
+    data: notification
   }
 }
 
 export const removeNotification = () => {
   return {
     type: 'REMOVE'
+  }
+}
+
+export const createNotification = (notification, timeout) => {
+  return dispatch => {
+    dispatch(ShowNotification(notification))
+
+    setTimeout(() => {
+      dispatch(removeNotification())
+    }, Math.pow(timeout, 4))
   }
 }
 

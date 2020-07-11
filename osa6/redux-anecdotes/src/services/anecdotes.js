@@ -14,7 +14,9 @@ const createNew = async (content) => {
 }
 
 const updateVotes = async (anecdoteObject) => {
-  const updatedObject = {...anecdoteObject, votes: + 1 }
+  let updatedObject = {...anecdoteObject}
+  updatedObject.votes += 1 
+  
   const url = `${baseUrl}/${anecdoteObject.id}`
   const response = await axios.put(url, updatedObject)
   return response.data
