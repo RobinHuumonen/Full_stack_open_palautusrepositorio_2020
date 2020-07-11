@@ -59,6 +59,16 @@
       "content": "a",
       "votes": 0,
       "id": "RW4PYI5"
+    },
+    {
+      "content": "test",
+      "votes": 1,
+      "id": "Cp3Zxdr"
+    },
+    {
+      "content": "connect",
+      "votes": 3,
+      "id": "P0f1CkS"
     }
   ]
 }
