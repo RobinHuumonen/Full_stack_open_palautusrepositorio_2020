@@ -5,31 +5,40 @@ const reducer = (state = initialState, action) => {
     case 'CREATE':
       return action.data
     case 'REMOVE':
-      return ''
+      return initialState
     default: return state
   }
 }
 
- export const ShowNotification = (notification) => {
+ const ShowNotification = (notification) => {
   return {
     type: 'CREATE',
     data: notification
+    
   }
 }
 
-export const removeNotification = () => {
+const removeNotification = () => {
   return {
     type: 'REMOVE'
   }
 }
 
+let oldTimeoutID, currentTimeoutID
 export const createNotification = (notification, timeout) => {
   return dispatch => {
+    
+    if (currentTimeoutID) {
+      oldTimeoutID = currentTimeoutID
+      clearTimeout(oldTimeoutID)
+    }
+    
     dispatch(ShowNotification(notification))
 
-    setTimeout(() => {
+    currentTimeoutID = setTimeout(() => {
       dispatch(removeNotification())
-    }, Math.pow(timeout, 4))
+    }, timeout * Math.pow(10, 3))
+
   }
 }
 
