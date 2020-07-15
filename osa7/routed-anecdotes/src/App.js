@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {
   BrowserRouter as Router,
-  Switch, Route, Link, useParams
+  Switch, Route, Link, useParams, useHistory
 } from 'react-router-dom'
 
 const Menu = () => {
@@ -10,9 +10,6 @@ const Menu = () => {
   }
   return (
     <div>
-{/*       <a href='/' style={padding}>anecdotes</a>
-      <a href='/create' style={padding}>create new</a>
-      <a href='#' style={padding}>about</a> */}
       <Link style={padding} to="/">anecdotes</Link>
       <Link style={padding} to="/create">create new</Link>
       <Link style={padding} to="/about">about</Link>
@@ -70,6 +67,7 @@ const CreateNew = (props) => {
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
+  const history = useHistory()
 
 
   const handleSubmit = (e) => {
@@ -80,6 +78,8 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    history.push('/')
+    props.newNotification(content)
   }
 
   return (
@@ -105,6 +105,14 @@ const CreateNew = (props) => {
 
 }
 
+const Notification = (props) => {
+  return (
+    <div>
+      <p>A new anecdote {props.notification} created!</p>
+    </div>
+  )
+}
+
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
     {
@@ -124,6 +132,11 @@ const App = () => {
   ])
 
   const [notification, setNotification] = useState('')
+
+  const newNotification = (content) => {
+    setNotification(content)
+    setTimeout(() => setNotification(''), 10000)
+  }
 
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
@@ -152,6 +165,10 @@ const App = () => {
             <h1>Software anecdotes</h1>
             <Menu />
           </div>
+          {notification
+            ? <Notification notification={notification}/>
+            : null
+          }
          
           <Switch>
             <Route path="/anecdotes/:id">
@@ -161,7 +178,7 @@ const App = () => {
               <About />
             </Route>
             <Route path="/create">
-             <CreateNew addNew={addNew} />
+             <CreateNew addNew={addNew} newNotification={newNotification} />
             </Route>
             <Route path="/">
               <AnecdoteList anecdotes={anecdotes} />
