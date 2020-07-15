@@ -65,12 +65,9 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-/*   const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('') */
-  const content = useField('text')
-  const author = useField('text')
-  const info = useField('text')
+  const {onReset: resetContent, ...content} = useField('text')
+  const {onReset: resetAuthor, ...author} = useField('text')
+  const {onReset: resetInfo, ...info} = useField('text')
   const history = useHistory()
   
   const handleSubmit = (e) => {
@@ -101,7 +98,8 @@ const CreateNew = (props) => {
           url for more info
           <input {...info} />
         </div>
-        <button>create</button>
+        <button type="submit" value="Submit">create</button>
+        <button type="reset">reset</button>
       </form>
     </div>
   )
