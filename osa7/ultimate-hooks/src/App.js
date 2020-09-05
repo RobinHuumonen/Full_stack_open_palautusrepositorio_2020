@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-// TEST
+
 const useField = (type) => {
   const [value, setValue] = useState('')
 
@@ -36,7 +36,6 @@ const useResource = (baseUrl) => {
   const create = async (resource) => {
     const res = await axios.post(baseUrl, resource)
     resources.concat(res.data)
-    console.log(resources);
     return res.data
   }
 
@@ -64,7 +63,6 @@ const App = () => {
   const handleNoteSubmit = (event) => {
     event.preventDefault()
     noteService.create({ content: content.value })
-    console.log(noteService.getAll);
     noteService.getAll(notesUrl)
   }
  
