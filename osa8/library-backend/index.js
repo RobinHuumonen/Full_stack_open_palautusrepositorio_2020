@@ -89,11 +89,11 @@ const resolvers = {
     allAuthors: () => Author.find({}),
     allBooks: (root, args) => {
       if (!args.genre) {
-        return Book.find({})
+        return Book.find({}).populate('author') 
       } else {
         return Book.find({
           genres: args.genre
-        })
+        }).populate('author') 
       }
     },
     me: (root, args, { currentUser }) => currentUser
