@@ -5,6 +5,9 @@ const {
   AuthenticationError
 } = require('apollo-server')
 
+const { PubSub } = require('apollo-server')
+const pubsub = new PubSub()
+
 const mongoose = require('mongoose')
 require('dotenv').config()
 const jwt = require('jsonwebtoken')
@@ -80,6 +83,9 @@ const typeDefs = gql `
       username: String!
       password: String!
     ): Token
+  },
+  type Subscription {
+    bookAdded: Book!
   }
 `
 const resolvers = {
@@ -132,11 +138,16 @@ const resolvers = {
         genres: args.genres,
         author: id
       })
-      return book.save().catch(error => {
+
+      await book.save().catch(error => {
         throw new UserInputError(error.message, {
           invalidArgs: args,
         })
       })
+
+      pubsub.publish('BOOK_ADDED', { bookAdded: book })
+
+      return book
     },
 
     editAuthor: async (root, args, { currentUser }) => {
@@ -162,13 +173,15 @@ const resolvers = {
       }
     },
 
-    createUser: (root, args) => {
-      const user = new User({ username: args.username })
-      return user.save().catch(error => {
+    createUser: async (root, args) => {
+      const user = new User({ username: args.username, favoriteGenre: args.favoriteGenre })
+      try {
+        return user.save()
+      } catch (error) {
         throw new UserInputError(error.message, {
           invalidArgs: args
         })
-      })
+      }
     },
     
     login: async (root, args) => {
@@ -181,6 +194,11 @@ const resolvers = {
         id: user._id
       }
       return { value: jwt.sign(userForToken, process.env.JWT_SECRET) }
+    }
+  },
+  Subscription: {
+    bookAdded: {
+      subscribe: () => pubsub.asyncIterator(['BOOK_ADDED'])
     }
   }
 }
@@ -201,8 +219,7 @@ const server = new ApolloServer({
   }
 })
 
-server.listen().then(({
-  url
-}) => {
+server.listen().then(({ url, subscriptionsUrl }) => {
   console.log(`Server ready at ${url}`)
+  console.log(`Subscriptions ready at ${subscriptionsUrl}`)
 })
